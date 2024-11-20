@@ -1,14 +1,14 @@
-## Luke-H-Portfolio
+# Luke-H-Portfolio
 
 This is a portfolio of unique projects I have worked on inside of my coding history. There are 3 projects inside of this repository: a re-creation of Mastermind and Tetris, as well as my game engine that is yet to be named. 
 
 
-## Mastermind
+# Mastermind
 
 
 This is a simple approach to the Mastermind game that supports 6 colors, deleting, and playing again without having to reset the program. Mastermind is a strategy game in which the computer will generate a list of 4 random colors. To add extra difficulty, I allowed the user to select if they wanted 6 colors instead. The player's job is to guess these colors. You will be told how many existing colors you have and the amount of colors in the right position after each turn. However, Not which ones! The player will have 8 guesses. If you run out, you lose!
 
-# Technical explanation:
+## Technical explanation:
 
 This project is written in the python programming language, as that is the language I felt most appropriate for the task. This is because I do not need to edit the settings of the terminal, and the only complex features I use are screen clearing and color codes, which may not work on all terminals. This project first introduces the user to the game, then lets them choose their difficulty. This difficulty value is limited by the number of colors supported by ANSI escape codes. After that it asks the user if they are ready to start, which has no programmatically function. However, this makes sure the player will re-read the instructions if they don't understand.
 
@@ -17,7 +17,7 @@ Every time the player asks a color, the screen clears, prints the list of allowe
 Overall I am proud of how this program turned out, especially considering it took me about 2-3 days, each where I worked on it for about 1 hour. 
 
 
-## Tetris
+# Tetris
 
 
 This program is a condensed version of the popular game Tetris. Tetris is a computer game originally created by Alexey Pajitnov in 1985. The original Tetris is a lot more complicated than this version. This (more condensed) iteration of the game lacks levels, and additional points for special line clears. However, this version does include the following features and more:
@@ -46,7 +46,7 @@ Due to the time limitations, I was unable to fix a few bugs that I have encounte
 To play this game, you try to fill entire rows with pieces. Once you fill a row, that row will be cleared and every other row will drop by 1 layer. Once clearing 1 row, you will gain 100 points. However, you get more points the more rows you clear at once. For example, if the player clears 4 rows at once, the player will gain 800 points. The goal of this game is to get the highest score possible before running out of room in your game board, by rotating and moving your pieces around it. Every time that you have a falling piece, you may use the keys A or D to move the piece either left or right. The player can also use the S key to hasten the descent of the piece. If you use the left or right arrow keys, the tetromino will rotate. Finally, you may also use the P key to temporarily pause your game.
 
 
-# Technical explanation:
+## Technical explanation:
 
 This program is coded inside of the language C++ because of the requirement of speed and efficiency, need to modify terminal settings, and complex feature requirements. Additionally, C++ is a language that I am very used to, so it would be easier to code this in C++. However, just like Mastermind, this program is built for the Linux terminal, incorporating ANSI escape codes and several unique features.
 
