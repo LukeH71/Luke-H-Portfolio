@@ -1,4 +1,4 @@
-# Luke-H-Portfolio
+# Luke H's Portfolio
 
 This is a portfolio of unique projects I have worked on inside of my coding history. There are 3 projects inside of this repository: a re-creation of Mastermind and Tetris, as well as my game engine that is yet to be named. 
 
