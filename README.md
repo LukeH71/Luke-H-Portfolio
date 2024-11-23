@@ -82,9 +82,25 @@ There is a large issue with this code, and that is the mouse movement. In the fu
 
 ## Technical explanation:
 
-This code contains a mixture of: C/C++, Objective-C, Metal, and 
+This code contains a mixture of: C/C++, Objective-C, Metal, and Objective-C++. Objective-C is used as a language to interact with Apple's APIs for drawing. Since my main language is C++, I use the language Objective-C++ to be able to code with the optimized nature of the pure C based language, while still working with APIs. Metal is my shader language of preference for this particular project. Due to this project's focus being just the MacOS system, I used Metal, which is built specifically for the chip on my computer, so I get the most hardware acceleration possible.
 
 The majority of impactful code resides inside of my Renderer.mm file. However, this file calls reference to the rest of the project to be able to draw the user's experience. 
+
+Physical Input:
+
+I subclassed the MTKView class, which is a class that handles activities inside of the window. To allow user input, I ovverode the acceptsFirstResponder function, to return true. This means that the view now accepts input and will call functions like rightMouseUp when specific actions occur. 
+
+Now that the program is able to process user input, it needs to store and handle it. For keys that cannot be dropped (i.e. being forgotten by the program), the keyCodes array is used to index two other arrays. One array is for the real time key codes, while the other is the read key codes array. If a key is pressed, it is put into the real time key codes and regular key code array. Once a key is released, the relating real time key code variable is reset to non active. Once the program wishes to read a key code, the value is returned, and the original key code value is reset only if the real time key code array says that the key is no longer being held.
+
+This code is also recycled to handle mouse button presses.
+
+However, mouse locations/deltas are handled differently. These values are set, and reset once it is read, without needing an intermediary variable. Mouse locations are also inside the Metal coordinate system for ease of development.
+
+Audio:
+
+For Audio I abstracted the AVAudioPlayerNode and implemented features so that if the audio player variable is defined, and you call a function towards it with the path to the audio file, the file will play with specified reverb.
+
+In the future I wish to add a better implementation that is more creative and low level, however this will due for debug and proof of concept examples.
 
 
 
