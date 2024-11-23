@@ -45,7 +45,6 @@ Due to the time limitations, I was unable to fix a few bugs that I have encounte
 
 To play this game, you try to fill entire rows with pieces. Once you fill a row, that row will be cleared and every other row will drop by 1 layer. Once clearing 1 row, you will gain 100 points. However, you get more points the more rows you clear at once. For example, if the player clears 4 rows at once, the player will gain 800 points. The goal of this game is to get the highest score possible before running out of room in your game board, by rotating and moving your pieces around it. Every time that you have a falling piece, you may use the keys A or D to move the piece either left or right. The player can also use the S key to hasten the descent of the piece. If you use the left or right arrow keys, the tetromino will rotate. Finally, you may also use the P key to temporarily pause your game.
 
-
 ## Technical explanation:
 
 This program is coded inside of the language C++ because of the requirement of speed and efficiency, need to modify terminal settings, and complex feature requirements. Additionally, C++ is a language that I am very used to, so it would be easier to code this in C++. However, just like Mastermind, this program is built for the Linux terminal, incorporating ANSI escape codes and several unique features.
@@ -57,6 +56,42 @@ After the user starts the game, pieces will start to fall. These pieces, otherwi
 The tetrominoes have a function that is called when the main game loop needs to move the pieces. This function will return true if the sliding immunity (a feature that lets pieces slide along the ground) runs out and the piece is unable to move downwards. This function also does not force the piece to move, and includes collision with other pieces as well as borders.
 
 Every frame, a function is called to draw the screen. This includes the game board, next piece, tetris logo (which gets unpacked from a pre-calculated string), paused state, score, amount of score from last line clear, and a prompt for user input. The main game loop then uses multithreading to have one thread designated for user input, and one thread for game logic. This is because once you ask for user input inside of C++ using the methods I have learned, the current thread is paused. This approach also makes sure no input is lost while drawing the screen. Once user input is collected, a shared variable between these threads is set to a singular inputted character (which is insured because the terminal is not canonical). For aesthetics also, echo is turned off inside of the terminal while getting user input.
+
+
+# Game Engine
+
+
+My graphical engine, 3D renderer, or transparency simulation will be refered to under the more broad legion of software called a game engine. A game engine is a piece of software that runs the graphical, and sometimes physical apsects of a game. This is a vital piece of software that makes developing experiances much more streamline and efficient for many coders. However, in my case, I wish to not just develop a game, but to understand the programatical intracies of my computer to become a better developer. I have been working on this project for many years, starting in 6th grade. During this time I discovered the GPU, learned shaders and efficient graphics programming basics, how to conduct larger code bases, and several new languages.
+
+With this project in the future I wish to finish my workings of adding a font renderer, which would rasterise a glyph. I wish to add a physics engine and add collision as well as shadows. Also I wish to add graphical processes like ray tracing, bump maps, and improved transparency. However, I do not believe I will ever officially publish this code as an active alturnative. With this project, I wish to learn how a computer works on the lowest level I can, to be able to potentially work as a low level programmer when I grow up. 
+
+If this project is ever actually used as an alturnative, it would target my use of hardware acceleration for MacOS. 
+
+While looking through this project, please keep note that this code is still under development, and has been for a long time. Nothing in this code is final, and many of it is temporarilly swapped out to be able to provide this demo.
+
+
+To use this demo, there are a few keybinds to understand. The keys to manuver around the scene are W, A, S, and D. The W key would move you forward in respect towards the location where you are looking. The A and D keys will move you left to right in regards to the location you are looking. Finally, the A key does the opposite of the W key, moving the user backwards. In addition, if you wish to move upwards or downwards, the user will have to press either the space key or the shift key.
+
+To enter into this movement mode, you will have to press the C key. The use of this toggle is because it locks the user mouse in the middle of the window, and make it invisible. This means if you drag the mouse around the screen, the player's looking vector will follow the user's mouse.
+
+Additionally, the V key may be used to enter into a debuging/testing UI state that lets the user to drag dots around the screen. However, please keep in mind, that if you were to enter this mode that you must also exit the mouse movement mode.
+
+All of these keybinds and mouse movements are made to mimic popular video games like Minecraft or Fortnite. Also, please keep in mind that this movement code is not baked into the game engine, but used as a demo for the keyboard input code.
+
+There is a large issue with this code, and that is the mouse movement. In the future I wish to fix this, but currently this code may change in sensitivity regarding the user's mouse input.
+
+## Technical explanation:
+
+This code contains a mixture of: C/C++, Objective-C, Metal, and 
+
+The majority of impactful code resides inside of my Renderer.mm file. However, this file calls reference to the rest of the project to be able to draw the user's experience. 
+
+
+
+
+
+
+
 
 
 
