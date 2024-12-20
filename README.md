@@ -78,7 +78,6 @@ Additionally, the V key may be used to enter into a debuging/testing UI state th
 
 All of these keybinds and mouse movements are made to mimic popular video games like Minecraft or Fortnite. Also, please keep in mind that this movement code is not baked into the game engine, but used as a demo for the keyboard input code.
 
-There is a large issue with this code, and that is the mouse movement. In the future I wish to fix this, but currently this code may change in sensitivity regarding the user's mouse input.
 
 ## Technical explanation:
 
