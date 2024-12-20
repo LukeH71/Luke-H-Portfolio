@@ -50,6 +50,7 @@ static size_t Align (size_t value, size_t align)
     id<MTLRenderPipelineState> _transparencyPipeline;
     id<MTLRenderPipelineState> _blendPipelineState;
     id<MTLRenderPipelineState> _GUIPipelineState;
+    id<MTLRenderPipelineState> _textPipelineState;
     
     MTLRenderPassDescriptor* _forwardRenderPassDescriptor;
 
@@ -231,18 +232,6 @@ static size_t Align (size_t value, size_t align)
         // Set up the GUI pipeline
         {
             MTLVertexDescriptor *mtlVertexDescriptor = [[MTLVertexDescriptor alloc] init];
-            
-            mtlVertexDescriptor.attributes[0].format = MTLVertexFormatFloat2;
-            mtlVertexDescriptor.attributes[0].offset = 0;
-            mtlVertexDescriptor.attributes[0].bufferIndex = 0; // change to 0 when cleaning
-
-            mtlVertexDescriptor.attributes[1].format = MTLVertexFormatFloat2;
-            mtlVertexDescriptor.attributes[1].offset = 0;
-            mtlVertexDescriptor.attributes[1].bufferIndex = 0;
-
-            mtlVertexDescriptor.layouts[0].stride = 16;
-            mtlVertexDescriptor.layouts[0].stepRate = 1;
-            mtlVertexDescriptor.layouts[0].stepFunction = MTLVertexStepFunctionPerVertex;
 
             id<MTLFunction> vertexFunction = [defaultLibrary newFunctionWithName:@"flatVertexShader"];
             id<MTLFunction> fragmentFunction = [defaultLibrary newFunctionWithName:@"colorMapFragmentShader"];
@@ -260,6 +249,30 @@ static size_t Align (size_t value, size_t align)
             _GUIPipelineState = [_device newRenderPipelineStateWithDescriptor:renderPipelineDesc error:&error];
             NSAssert(_GUIPipelineState, @"Failed to create blend pipeline state: %@", error);
         }
+        
+        // Set up the text pipeline
+        {
+            MTLVertexDescriptor *mtlVertexDescriptor = [[MTLVertexDescriptor alloc] init];
+
+            id<MTLFunction> vertexFunction = [defaultLibrary newFunctionWithName:@"textVertex"];
+            id<MTLFunction> fragmentFunction = [defaultLibrary newFunctionWithName:@"colorTextFragment"];
+
+            MTLRenderPipelineDescriptor* renderPipelineDesc = [MTLRenderPipelineDescriptor new];
+            renderPipelineDesc.label = @"r pipeline";
+            renderPipelineDesc.vertexFunction = vertexFunction;
+            renderPipelineDesc.fragmentFunction = fragmentFunction;
+            renderPipelineDesc.vertexDescriptor = mtlVertexDescriptor;
+            renderPipelineDesc.colorAttachments[AAPLRenderTargetColor].pixelFormat = _mtkView.colorPixelFormat;
+            renderPipelineDesc.depthAttachmentPixelFormat = _mtkView.depthStencilPixelFormat;
+            renderPipelineDesc.stencilAttachmentPixelFormat = MTLPixelFormatInvalid;
+            //renderPipelineDesc.vertexDescriptor = nil;
+
+            _textPipelineState = [_device newRenderPipelineStateWithDescriptor:renderPipelineDesc error:&error];
+            NSAssert(_GUIPipelineState, @"Failed to create blend pipeline state: %@", error);
+        }
+        
+        
+        
     }
     else
     {
@@ -369,8 +382,6 @@ static size_t Align (size_t value, size_t align)
 - (void) mtkView:(nonnull MTKView*) view drawableSizeWillChange:(CGSize)size
 {
     
-    float oldAspect = _mtkView.window.frame.size.width/(_mtkView.window.frame.size.height-28);
-    
     //std::cout << _mtkView.window.frame.size.height << std::endl;
     
     NSRect trackingRect = [view bounds];
@@ -388,7 +399,7 @@ static size_t Align (size_t value, size_t align)
         [_mtkView draw];
     }
     
-    _UIController->recalculatePositions(aspect, _currentBufferIndex);
+    _UIController->setAspect(aspect);
 }
 
 /// Updates the application's state for the current frame.
@@ -569,7 +580,7 @@ static size_t Align (size_t value, size_t align)
     [renderEncoder setRenderPipelineState:_GUIPipelineState];
     [renderEncoder setCullMode:MTLCullModeNone];
     
-    _UIController->drawUI(renderEncoder, _currentBufferIndex);
+    _UIController->drawUI(renderEncoder, _currentBufferIndex, _textPipelineState, _GUIPipelineState);
     
     // Finish the use of this render encoder
     [renderEncoder endEncoding];
