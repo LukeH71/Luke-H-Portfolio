@@ -69,6 +69,9 @@
     return deltaX;
 }
 
+///rrrrrgfrgyrvftvygbvftcdvgybhugyvftcdrtfvgybhjgvyftcdvg hbjnkjbhvgfcdgv hb
+/// Fix: the mouse getting input range is only if the window is in the top right
+
 - (float) getMouseDeltaY {
     return deltaY;
 }
