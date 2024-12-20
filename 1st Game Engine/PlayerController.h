@@ -47,6 +47,9 @@ public:
             center.x = windowFrame.width / 2.0;
             center.y = windowFrame.height / 2.0;
             
+            center.x += _mtkView.window.frame.origin.x;
+            center.y =  _mtkView.window.screen.frame.size.height - _mtkView.window.frame.origin.y - center.y;
+            
             CGWarpMouseCursorPosition(center);
         }
 
